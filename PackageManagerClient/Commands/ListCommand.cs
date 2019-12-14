@@ -38,7 +38,7 @@ namespace PackageManagerClient.Commands
 
 			foreach (Package info in infos)
 			{
-				Logger.WriteLine($"{info.Name} - {info.PackageName}, Version: {info.CurrentVersion}", ConsoleColor.Cyan);
+				Logger.WriteLine($"{info.Name} - {info.PackageName}, Version: {info.CurrentVersion.Version}", ConsoleColor.Cyan);
 			}
 
 			return Task.CompletedTask;

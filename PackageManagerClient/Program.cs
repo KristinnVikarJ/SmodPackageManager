@@ -20,10 +20,37 @@ namespace PackageManagerClient
 		public static List<ICommand> Commands;
 
 		public static string InstallationDirectory;
+		public static string SmodVersion;
 
 		static void Main(string[] args)
 		{
 			InstallationDirectory = "/sm_plugins";
+
+			Logger.WriteLine("Looking for Smod dll ...", ConsoleColor.Gray);
+
+			foreach(string File in Directory.GetFiles(Environment.CurrentDirectory, "*", SearchOption.AllDirectories))
+			{
+				if(Path.GetFileName(File).ToLower() == "smod2.dll")
+				{
+					Logger.WriteLine($"Smod dll found at {File} ...", ConsoleColor.Gray);
+					Logger.WriteLine("Loading Smod dll ...", ConsoleColor.DarkGray);
+					Assembly Smod = Assembly.LoadFrom(File);
+					Version ver = Smod.GetName().Version;
+					SmodVersion = $"{ver.Major}.{ver.Minor}.{ver.Build}";
+				}
+				else if(Path.GetExtension(File) == ".dll")
+				{
+					Assembly a = Assembly.LoadFrom(File);
+				}
+			}
+			if(SmodVersion == null)
+			{
+				Logger.WriteLine("Smod dll Not Found! ...", ConsoleColor.Red);
+			}
+			else
+			{
+				Logger.WriteLine($"Smod dll Loaded! Version: {SmodVersion} ...", ConsoleColor.Cyan);
+			}
 
 			commandMap = new Dictionary<string, ICommand>();
 			Commands = new List<ICommand>();

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace PackageManagerClient
 {
-	public class PluginDetails : Attribute
+	public class PluginDetails
 	{
 		public int SmodMajor;
 		public int SmodMinor;
