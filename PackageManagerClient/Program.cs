@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 
 namespace PackageManagerClient
 {
-    class Program
+	class Program
 	{
 		public const string kInstalledFile = "installed.json";
 		public const string kSettingsFile = "settings.json";
@@ -20,8 +20,9 @@ namespace PackageManagerClient
 		public static List<ICommand> Commands;
 
 		public static string InstallationDirectory;
-        static void Main(string[] args)
-        {
+
+		static void Main(string[] args)
+		{
 			InstallationDirectory = "/sm_plugins";
 
 			commandMap = new Dictionary<string, ICommand>();
@@ -93,17 +94,9 @@ namespace PackageManagerClient
 			Console.WriteLine();
 		}
 
-
 		public static void SaveInstalled()
 		{
 			File.WriteAllText(kInstalledFile, JsonConvert.SerializeObject(InstalledPackages, Formatting.Indented));
 		}
-
-		/*
-		public static void SaveSettings()
-		{
-			File.WriteAllText(kSettingsFile, JsonConvert.SerializeObject(Settings, Formatting.Indented));
-		}
-		*/
 	}
 }
