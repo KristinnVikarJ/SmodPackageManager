@@ -66,7 +66,7 @@ namespace PackageManagerClient.Commands
 				Logger.WriteLine($"Downlading Package {package} ...", ConsoleColor.Cyan);
 				try
 				{
-					Client.Download("http://piebot.xyz/api/smod" + kDownEndpoint + "?PackageName=" + package + "&Version=" + Package.Version, Environment.CurrentDirectory + Program.InstallationDirectory + @"\" + package + ".dll");
+					Client.Download($"{Program.apiEndpoint}{kDownEndpoint}?PackageName={package}&Version={Package.Version}", $@"{Environment.CurrentDirectory}{Program.InstallationDirectory}\{package}.dll");
 				}
 				catch(Exception e)
 				{

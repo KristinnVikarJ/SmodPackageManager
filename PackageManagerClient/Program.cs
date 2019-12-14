@@ -11,6 +11,7 @@ namespace PackageManagerClient
 	{
 		public const string kInstalledFile = "installed.json";
 		public const string kSettingsFile = "settings.json";
+		public const string apiEndpoint = "http://piebot.xyz/api/smod";
 
 		public static List<Package> InstalledPackages;
 		//public static Settings Settings { get; }

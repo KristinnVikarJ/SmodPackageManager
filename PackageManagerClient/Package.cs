@@ -49,7 +49,5 @@ namespace PackageManagerClient
         public int VersionID { get; set; }
 
         public List<Dependency> Dependencies { get; set; }
-
-        //public string FileName { get; set; }
     }
 }

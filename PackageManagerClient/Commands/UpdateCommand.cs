@@ -10,7 +10,6 @@ namespace PackageManagerClient.Commands
 {
 	class UpdateCommand : ICommand
 	{
-
 		public string[] Aliases { get; } =
 		{
 			"update"
@@ -59,8 +58,6 @@ namespace PackageManagerClient.Commands
 						{
 							Program.ReadMarkup(installedPackage.Readme);
 						}
-
-
 					}
 					else
 					{

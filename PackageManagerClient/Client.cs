@@ -12,7 +12,7 @@ namespace PackageManagerClient
 	{
 		private static HttpWebRequest PrepRequest(string url, string method)
 		{
-			HttpWebRequest request = HttpWebRequest.CreateHttp("http://piebot.xyz/api/smod" + url);
+			HttpWebRequest request = HttpWebRequest.CreateHttp(Program.apiEndpoint + url);
 			request.ContentType = "application/json";
 			request.Method = method;
 
