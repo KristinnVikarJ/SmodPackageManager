@@ -40,7 +40,10 @@ namespace PackageManagerClient
 				}
 				else if(Path.GetExtension(File) == ".dll")
 				{
-					Assembly a = Assembly.LoadFrom(File);
+					if (!File.Contains("System"))
+					{
+						Assembly a = Assembly.LoadFrom(File);
+					}
 				}
 			}
 			if(SmodVersion == null)

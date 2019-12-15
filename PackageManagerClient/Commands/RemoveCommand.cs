@@ -20,7 +20,7 @@ namespace PackageManagerClient.Commands
 			switch (args.Length)
 			{
 				case 1:
-					Package? toRemove = null;
+					Package toRemove = null;
 					foreach (Package package in Program.InstalledPackages)
 					{
 						if (package.PackageName == args[0])

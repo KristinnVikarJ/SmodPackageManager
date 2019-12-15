@@ -3,7 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
+using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace PackageManagerClient
 {
@@ -13,11 +15,11 @@ namespace PackageManagerClient
 
 		public bool Success => Code == HttpStatusCode.OK;
 
-		public Response(HttpWebResponse response)
+		public Response(Task<HttpResponseMessage> response)
 		{
 			if (response != null)
 			{
-				Code = response.StatusCode;
+				Code = response.Result.StatusCode;
 			}
 		}
 
@@ -28,15 +30,15 @@ namespace PackageManagerClient
 	{
 		public T Data { get; }
 
-		public Response(HttpWebResponse response) : base(response)
+		public Response(Task<HttpResponseMessage> response) : base(response)
 		{
 			if (Code == HttpStatusCode.OK)
 			{
-				Stream stream = response.GetResponseStream();
+				Task<Stream> stream = response.Result.Content.ReadAsStreamAsync();
 
 				if (stream != null)
 				{
-					using (StreamReader reader = new StreamReader(stream))
+					using (StreamReader reader = new StreamReader(stream.Result))
 					{
 						Data = JsonConvert.DeserializeObject<T>(reader.ReadToEnd());
 					}
