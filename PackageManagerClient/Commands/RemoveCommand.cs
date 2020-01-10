@@ -42,7 +42,7 @@ namespace PackageManagerClient.Commands
 							{
 								if (dep.PackageName == toRemove.PackageName)
 								{
-									Logger.WriteLine($"Unable to remove, package is a dependency of {dep.PackageName}.", ConsoleColor.Red);
+									Logger.WriteLine($"Unable to remove, package is a dependency of {package.PackageName}.", ConsoleColor.Red);
 									return Task.CompletedTask;
 								}
 							}

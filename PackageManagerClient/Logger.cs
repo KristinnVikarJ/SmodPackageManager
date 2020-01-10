@@ -8,15 +8,27 @@ namespace PackageManagerClient
 	public static class Logger
 	{
 		private static readonly StreamWriter _logger;
+		public static bool IsCommandLine;
 
 		static Logger()
 		{
 			_logger = new StreamWriter("log.txt", true);
+			IsCommandLine = false;
 		}
 		public static void SilentWriteLine(object line) => _logger.WriteLine(line);
 		public static void SilentWriteLine(string line) => _logger.WriteLine(line);
 		public static void WriteLine(object line, ConsoleColor color = ConsoleColor.White) => WriteLine(line.ToString(), color);
 		public static void WriteLine(string line, ConsoleColor color = ConsoleColor.White) => Write(line + Environment.NewLine, color);
+		public static void WriteLineNotCommandLine(object line, ConsoleColor color = ConsoleColor.White) 
+		{ 
+			if(!IsCommandLine)
+				Write(line.ToString() + Environment.NewLine, color);
+		}
+		public static void WriteLineCommandLine(object line, ConsoleColor color = ConsoleColor.White)
+		{
+			if (IsCommandLine)
+				Write(line.ToString() + Environment.NewLine, color);
+		}
 		public static void Write(object text, ConsoleColor color = ConsoleColor.White) => Write(text.ToString(), color);
 		public static void Write(string text, ConsoleColor color = ConsoleColor.White)
 		{

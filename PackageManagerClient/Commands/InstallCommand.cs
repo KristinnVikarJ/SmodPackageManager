@@ -115,7 +115,7 @@ namespace PackageManagerClient.Commands
 
 					if (success)
 					{
-						Logger.WriteLine("Package installed successfully." + (package.Readme != null ? "Readme: " : string.Empty), ConsoleColor.Green);
+						Logger.WriteLine("Package installed successfully." + (package.Readme != null ? " Readme: " : string.Empty), ConsoleColor.Green);
 
 						if (package.Readme != null)
 						{
@@ -124,7 +124,7 @@ namespace PackageManagerClient.Commands
 					}
 					else
 					{
-						Logger.WriteLine("Error Installing Package :(", ConsoleColor.Red);
+						Logger.WriteLine("Failed To Install Package :(", ConsoleColor.Red);
 					}
 					break;
 

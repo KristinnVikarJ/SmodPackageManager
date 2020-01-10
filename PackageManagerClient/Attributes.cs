@@ -12,33 +12,36 @@ namespace PackageManagerClient
 			Assembly ass = Assembly.LoadFrom(plugin);
 
 			Type[] types = ass.GetTypes();
-			Dictionary<string, string> Attributes = new Dictionary<string, string>();
+			Dictionary<string, string> attributes = new Dictionary<string, string>();
 			for (var x = 0; x < types.Length; x++)
 			{
-				var attributes = types[x].GetCustomAttributes(false);
-				foreach (Object a in attributes)
+				foreach (Object a in types[x].GetCustomAttributes(false))
 				{
 					if (a.GetType().Name == "PluginDetails")
 					{
 						foreach (FieldInfo info in a.GetType().GetFields())
 						{
-							Attributes.Add(info.Name, info.GetValue(a).ToString());
+							if (info.GetValue(a) != null)
+							{
+								attributes.Add(info.Name, info.GetValue(a).ToString());
+							}
 						}
 					}
 				}
 			}
+
 			return new PluginDetails()
 			{
-				SmodMajor = int.Parse(Attributes["SmodMajor"]),
-				SmodMinor = int.Parse(Attributes["SmodMinor"]),
-				SmodRevision = int.Parse(Attributes["SmodRevision"]),
-				author = Attributes["author"],
-				configPrefix = Attributes["configPrefix"],
-				description = Attributes["description"],
-				id = Attributes["id"],
-				langFile = Attributes["langFile"],
-				name = Attributes["name"],
-				version = Attributes["version"]
+				SmodMajor = int.Parse(attributes["SmodMajor"]),
+				SmodMinor = int.Parse(attributes["SmodMinor"]),
+				SmodRevision = int.Parse(attributes["SmodRevision"]),
+				author = attributes.ContainsKey("author") ? attributes["author"] : "None",
+				configPrefix = attributes.ContainsKey("configPrefix") ? attributes["configPrefix"] : "",
+				description = attributes.ContainsKey("description") ? attributes["description"] : "",
+				id = attributes["id"],
+				langFile = attributes.ContainsKey("langFile") ? attributes["langFile"] : "",
+				name = attributes["name"],
+				version = attributes["version"]
 			};
 		}
 	}

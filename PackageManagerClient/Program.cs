@@ -14,7 +14,6 @@ namespace PackageManagerClient
 		public const string apiEndpoint = "http://piebot.xyz/api/smod";
 
 		public static List<Package> InstalledPackages;
-		//public static Settings Settings { get; }
 
 		public static Dictionary<string, ICommand> commandMap;
 		public static List<ICommand> Commands;
@@ -26,21 +25,23 @@ namespace PackageManagerClient
 		{
 			InstallationDirectory = "/sm_plugins";
 
-			Logger.WriteLine("Looking for Smod dll ...", ConsoleColor.Gray);
+			Logger.IsCommandLine = args.Length > 0;
+
+			Logger.WriteLineNotCommandLine("Looking for Smod dll ...", ConsoleColor.Gray);
 
 			foreach(string File in Directory.GetFiles(Environment.CurrentDirectory, "*", SearchOption.AllDirectories))
 			{
 				if(Path.GetFileName(File).ToLower() == "smod2.dll")
 				{
-					Logger.WriteLine($"Smod dll found at {File} ...", ConsoleColor.Gray);
-					Logger.WriteLine("Loading Smod dll ...", ConsoleColor.DarkGray);
+					Logger.WriteLineNotCommandLine($"Smod dll found at {File} ...", ConsoleColor.Gray);
+					Logger.WriteLineNotCommandLine("Loading Smod dll ...", ConsoleColor.DarkGray);
 					Assembly Smod = Assembly.LoadFrom(File);
 					Version ver = Smod.GetName().Version;
 					SmodVersion = $"{ver.Major}.{ver.Minor}.{ver.Build}";
 				}
 				else if(Path.GetExtension(File) == ".dll")
 				{
-					if (!File.Contains("System"))
+					if (!File.Contains("System")) //Loading The System Files can cause a Version difference between installed mono system libraries and ones loaded in runtime
 					{
 						Assembly a = Assembly.LoadFrom(File);
 					}
@@ -48,11 +49,11 @@ namespace PackageManagerClient
 			}
 			if(SmodVersion == null)
 			{
-				Logger.WriteLine("Smod dll Not Found! ...", ConsoleColor.Red);
+				Logger.WriteLineNotCommandLine("Smod dll Not Found! ...", ConsoleColor.Red);
 			}
 			else
 			{
-				Logger.WriteLine($"Smod dll Loaded! Version: {SmodVersion} ...", ConsoleColor.Cyan);
+				Logger.WriteLineNotCommandLine($"Smod dll Loaded! Version: {SmodVersion} ...", ConsoleColor.Cyan);
 			}
 
 			commandMap = new Dictionary<string, ICommand>();
@@ -65,7 +66,6 @@ namespace PackageManagerClient
 			{
 				InstalledPackages = new List<Package>();
 			}
-
 
 			foreach (Type type in Assembly.GetExecutingAssembly().GetTypes())
 			{
@@ -93,6 +93,17 @@ namespace PackageManagerClient
 					{
 						Logger.WriteLine("Unknown Command!", ConsoleColor.Red);
 					}
+				}
+			}
+			else
+			{
+				if (commandMap.ContainsKey(args[0].ToLower()))
+				{
+					commandMap[args[0].ToLower()].Execute(args.ToList().Skip(1).ToArray());
+				}
+				else
+				{
+					Logger.WriteLine("Unknown Command!", ConsoleColor.Red);
 				}
 			}
 		}
