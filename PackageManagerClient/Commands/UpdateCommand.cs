@@ -44,7 +44,7 @@ namespace PackageManagerClient.Commands
 					{
 						if(currentInstalledPackage.CurrentVersion.VersionID == response.Data.GetNewestVersion().VersionID)
 						{
-							Logger.WriteLine($"Already Newest Version!", ConsoleColor.Red);
+							Logger.WriteLine($"Package is up to date!", ConsoleColor.Red);
 							return;
 						}
 

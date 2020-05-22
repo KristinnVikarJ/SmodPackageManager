@@ -15,7 +15,6 @@ namespace PackageManagerClient
 		
 		public static async Task<HttpResponseMessage> GetAsync(string url)
 		{
-			Logger.WriteLine("get");
 			try
 			{
 				HttpResponseMessage message = await client.GetAsync(Program.apiEndpoint + url);
@@ -26,7 +25,6 @@ namespace PackageManagerClient
 				Logger.WriteLine("not got :(");
 				Logger.WriteLine($"error: {e.Message}, stack: {e.StackTrace}");
 			}
-			Logger.WriteLine("got");
 			return null;
 		}
 
@@ -41,6 +39,7 @@ namespace PackageManagerClient
 			if (!GetTask.Result.IsSuccessStatusCode)
 			{
 				// write an error
+				Logger.WriteLine("Download Failed! StatusCode: " + GetTask.Result.StatusCode.ToString(), ConsoleColor.Red);
 				return;
 			}
 

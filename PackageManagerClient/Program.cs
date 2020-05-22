@@ -11,7 +11,7 @@ namespace PackageManagerClient
 	{
 		public const string kInstalledFile = "installed.json";
 		public const string kSettingsFile = "settings.json";
-		public const string apiEndpoint = "http://piebot.xyz/api/smod";
+		public const string apiEndpoint = "https://piebot.xyz/api/smod";
 
 		public static List<Package> InstalledPackages;
 
@@ -35,13 +35,14 @@ namespace PackageManagerClient
 				{
 					Logger.WriteLineNotCommandLine($"Smod dll found at {File} ...", ConsoleColor.Gray);
 					Logger.WriteLineNotCommandLine("Loading Smod dll ...", ConsoleColor.DarkGray);
+
 					Assembly Smod = Assembly.LoadFrom(File);
 					Version ver = Smod.GetName().Version;
 					SmodVersion = $"{ver.Major}.{ver.Minor}.{ver.Build}";
 				}
 				else if(Path.GetExtension(File) == ".dll")
 				{
-					if (!File.Contains("System")) //Loading The System Files can cause a Version difference between installed mono system libraries and ones loaded in runtime
+					if (!File.Contains("System")) //Loading The System Files included in Unity can cause a Version difference between installed mono system libraries and ones loaded in runtime
 					{
 						Assembly a = Assembly.LoadFrom(File);
 					}
@@ -49,7 +50,7 @@ namespace PackageManagerClient
 			}
 			if(SmodVersion == null)
 			{
-				Logger.WriteLineNotCommandLine("Smod dll Not Found! ...", ConsoleColor.Red);
+				Logger.WriteLine("Smod dll Not Found! ...", ConsoleColor.Red);
 			}
 			else
 			{
@@ -84,7 +85,7 @@ namespace PackageManagerClient
 				while (true)
 				{
 					Console.Write("> ");
-					args = Console.ReadLine().Split(' ');
+					args = Console.ReadLine().Trim().Split(' ');
 					if (commandMap.ContainsKey(args[0].ToLower()))
 					{
 						commandMap[args[0].ToLower()].Execute(args.ToList().Skip(1).ToArray());

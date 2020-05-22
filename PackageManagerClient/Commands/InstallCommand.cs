@@ -32,7 +32,8 @@ namespace PackageManagerClient.Commands
 			if (!Directory.Exists(Environment.CurrentDirectory + Program.InstallationDirectory))
 			{
 				Logger.WriteLine("Installation directory not found.", ConsoleColor.Red);
-				return (default(Package), false);
+				Directory.CreateDirectory(Environment.CurrentDirectory + Program.InstallationDirectory);
+				Logger.WriteLine("Created Installation Directory " + Program.InstallationDirectory, ConsoleColor.Green);
 			}
 
 			Response<Package> response = Client.Get<Package>(kPackEndpoint + "?PackageName=" + package);
